@@ -24,14 +24,7 @@
  	/* Never bind to the CD-Rom emulation interface	*/
  	if (iface_desc->bInterfaceClass == USB_CLASS_MASS_STORAGE)
  		return -ENODEV;
-+		
-+	if(serial->dev->descriptor.idVendor == cpu_to_le16(LONGSUNG_VENDOR_ID) &&
-+			serial->dev->descriptor.idProduct == cpu_to_le16(LONGSUNG_U9300_PRODUCT_ID) &&
-+			serial->interface->cur_altsetting->desc.bInterfaceNumber == 0){
-+		printk("GZZ Discover the 0th interface for 9300 ndis\n");
-+		return -ENODEV;
-+	}
- 
++	
 +	if (serial->dev->descriptor.idVendor == cpu_to_le16(LONGSUNG_VENDOR_ID) &&
 +			serial->dev->descriptor.idProduct == cpu_to_le16(LONGSUNG_U9300_PRODUCT_ID) &&
 +			serial->interface->cur_altsetting->desc.bInterfaceNumber == 4){
