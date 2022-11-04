@@ -20,18 +20,18 @@
  	{ USB_DEVICE(OPTION_VENDOR_ID, OPTION_PRODUCT_COLT) },
  	{ USB_DEVICE(OPTION_VENDOR_ID, OPTION_PRODUCT_RICOLA) },
  	{ USB_DEVICE(OPTION_VENDOR_ID, OPTION_PRODUCT_RICOLA_LIGHT) },
-@@ -2238,7 +2242,28 @@
+@@ -2238,7 +2242,21 @@
  	/* Never bind to the CD-Rom emulation interface	*/
  	if (iface_desc->bInterfaceClass == USB_CLASS_MASS_STORAGE)
  		return -ENODEV;
-+	
++		
 +	if (serial->dev->descriptor.idVendor == cpu_to_le16(LONGSUNG_VENDOR_ID) &&
 +			serial->dev->descriptor.idProduct == cpu_to_le16(LONGSUNG_U9300_PRODUCT_ID) &&
 +			serial->interface->cur_altsetting->desc.bInterfaceNumber == 4){
 +		printk(KERN_INFO"Discover the 4th interface for U9300 NDIS\n");
 +		return -ENODEV;
 +	}
-+
+ 
 +	if(serial->dev->descriptor.idVendor == cpu_to_le16(LONGSUNG_VENDOR_ID) &&
 +			serial->dev->descriptor.idProduct == cpu_to_le16(LONGSUNG_U8300_PRODUCT_ID) &&
 +			serial->interface->cur_altsetting->desc.bInterfaceNumber == 4){
