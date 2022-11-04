@@ -1,0 +1,11 @@
+--- a/drivers/net/usb/qmi_wwan.c	
++++ b/drivers/net/usb/qmi_wwan.c
+@@ -1049,6 +1049,8 @@
+ 	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0801)},	/* Quectel RM520N */
+ 
+ 	/* 3. Combined interface devices matching on interface number */
++	{QMI_QUIRK_SET_DTR(0x1c9e, 0x9b3c, 4)}, /*u9300 w/c  */
++	{QMI_QUIRK_SET_DTR(0x1c9e, 0x9b05, 4)},	/*u8300 w/c */
+ 	{QMI_FIXED_INTF(0x0408, 0xea42, 4)},	/* Yota / Megafon M100-1 */
+ 	{QMI_FIXED_INTF(0x05c6, 0x6001, 3)},	/* 4G LTE usb-modem U901 */
+ 	{QMI_FIXED_INTF(0x05c6, 0x7000, 0)},

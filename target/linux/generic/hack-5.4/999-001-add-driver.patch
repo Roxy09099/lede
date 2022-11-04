@@ -1,0 +1,51 @@
+--- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -392,7 +392,9 @@
+  * Mobidata, etc sell under their own brand names.
+  */
+ #define LONGCHEER_VENDOR_ID			0x1c9e
+-
++#define LONGSUNG_VENDOR_ID			0x1c9e
++#define LONGSUNG_U9300_PRODUCT_ID		0x9b3c
++#define LONGSUNG_U8300_PRODUCT_ID		0x9b05
+ /* 4G Systems products */
+ /* This is the 4G XS Stick W14 a.k.a. Mobilcom Debitel Surf-Stick *
+  * It seems to contain a Qualcomm QSC6240/6290 chipset            */
+@@ -601,6 +603,8 @@
+ 
+ 
+ static const struct usb_device_id option_ids[] = {
++	{ USB_DEVICE(LONGSUNG_VENDOR_ID, LONGSUNG_U9300_PRODUCT_ID) }, /* LongSung U9300 LTE modem */
++	{ USB_DEVICE(LONGSUNG_VENDOR_ID, LONGSUNG_U8300_PRODUCT_ID) }, /* LongSung U8300 LTE modem */
+ 	{ USB_DEVICE(OPTION_VENDOR_ID, OPTION_PRODUCT_COLT) },
+ 	{ USB_DEVICE(OPTION_VENDOR_ID, OPTION_PRODUCT_RICOLA) },
+ 	{ USB_DEVICE(OPTION_VENDOR_ID, OPTION_PRODUCT_RICOLA_LIGHT) },
+@@ -2238,7 +2242,28 @@
+ 	/* Never bind to the CD-Rom emulation interface	*/
+ 	if (iface_desc->bInterfaceClass == USB_CLASS_MASS_STORAGE)
+ 		return -ENODEV;
++		
++	if(serial->dev->descriptor.idVendor == cpu_to_le16(LONGSUNG_VENDOR_ID) &&
++			serial->dev->descriptor.idProduct == cpu_to_le16(LONGSUNG_U9300_PRODUCT_ID) &&
++			serial->interface->cur_altsetting->desc.bInterfaceNumber == 0){
++		printk("GZZ Discover the 0th interface for 9300 ndis\n");
++		return -ENODEV;
++	}
+ 
++	if (serial->dev->descriptor.idVendor == cpu_to_le16(LONGSUNG_VENDOR_ID) &&
++			serial->dev->descriptor.idProduct == cpu_to_le16(LONGSUNG_U9300_PRODUCT_ID) &&
++			serial->interface->cur_altsetting->desc.bInterfaceNumber == 4){
++		printk(KERN_INFO"Discover the 4th interface for U9300 NDIS\n");
++		return -ENODEV;
++	}
++
++	if(serial->dev->descriptor.idVendor == cpu_to_le16(LONGSUNG_VENDOR_ID) &&
++			serial->dev->descriptor.idProduct == cpu_to_le16(LONGSUNG_U8300_PRODUCT_ID) &&
++			serial->interface->cur_altsetting->desc.bInterfaceNumber == 4){
++		printk("GZZ Discover the 0th interface for 8300 ndis\n");
++		return -ENODEV;
++	}
++	
+ 	/*
+ 	 * Don't bind reserved interfaces (like network ones) which often have
+ 	 * the same class/subclass/protocol as the serial interfaces.  Look at
