@@ -1,0 +1,15 @@
+--- a/drivers/net/usb/usb-serial.c
++++ b/drivers/net/usb/usb-serial.c
+@@ -942,7 +942,11 @@
+ 		dev_warn(ddev, "too many ports requested: %d\n", num_ports);
+ 		num_ports = MAX_NUM_PORTS;
+ 	}
+-
++	
++	if(serial->interface->cur_altsetting->desc.bInterfaceNumber == 4) {
++                return -EDOM;
++        }
++        
+ 	serial->num_ports = (unsigned char)num_ports;
+ 	serial->num_bulk_in = epds->num_bulk_in;
+ 	serial->num_bulk_out = epds->num_bulk_out;
